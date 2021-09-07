@@ -118,7 +118,7 @@ bit SW1Down(void)
 	    while (1)	//Return 1 when the switch is released
 	    {
 		if (SW1 == 1)
-			return 1;
+		    return 1;
 	    }
 	}
 	else return 0;
@@ -137,7 +137,7 @@ bit SW2Down(void)
 	    while (1)
 	    {
 		if (SW2 == 1)
-			return 1;
+		    return 1;
 	    }
 	}
 	else return 0;
