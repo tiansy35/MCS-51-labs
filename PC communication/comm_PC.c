@@ -54,8 +54,8 @@ void main()
         if (Tflag == 1)	   //Tflag is changed by Timer 0 interrupt
         {
             Transmit();
-         }
-	    if (RI == 1)
+        }
+		if (RI == 1)
 		{
 			Receive();
 		}
@@ -69,7 +69,7 @@ void Timer0() interrupt 1
     TH0 = 0x10;		//x0=0x1000.
     TL0 = 0x00;
 	TR0 = 0;
-	st-- ;
+	st--;
 	if (st == 0)	//The number counted by Timer 0 
 	{
 	    Tflag = 1;	//If the number is reduced to 0, the transmit flag is set to be 1. 
@@ -157,8 +157,8 @@ void Display(void)		//Display the 4 digit number on segment LEDs
 
 void BCD4(uint sum)	    //Code the number (8-bit) with four binary numbers
 {
-      Ax = sum / 1000;
-      Bx = (sum % 1000) / 100;
-      Cx = (sum % 100) / 10;
-      Dx = sum % 10;
+     Ax = sum / 1000;
+     Bx = (sum % 1000) / 100;
+     Cx = (sum % 100) / 10;
+     Dx = sum % 10;
 }
