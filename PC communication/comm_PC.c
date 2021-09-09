@@ -38,7 +38,7 @@ uchar xdata Led[10] =	{0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90};
 
 void Initialize(void);
 void Receive(void);
-void Transimit(void);
+void Transmit(void);
 void Delay(uchar);
 void Display(void);
 void BCD4(uint sum);
@@ -53,7 +53,7 @@ void main()
     {
         if (Tflag == 1)	   //Tflag is changed by Timer 0 interrupt
         {
-            Transimit();
+            Transmit();
          }
 	    if (RI == 1)
 		{
@@ -66,15 +66,14 @@ void main()
 
 void Timer0() interrupt 1
 {
-    TH0 = 0x10;	   //x0=0x1000.
+    TH0 = 0x10;		//x0=0x1000.
     TL0 = 0x00;
 	TR0 = 0;
 	st-- ;
-	if (st == 0)    //The number counted by Timer 0 
+	if (st == 0)	//The number counted by Timer 0 
 	{
-	    Tflag = 1;    //If the number is reduced to 0, the transmit flag is set to be 1. 
-		st = 15;  	  //Reset st.	
-		Transimit();	              		                 
+	    Tflag = 1;	//If the number is reduced to 0, the transmit flag is set to be 1. 
+		st = 15;  	//Reset st.		              		                 
 	}
 	TR0 = 1;
 }
@@ -113,15 +112,15 @@ void Receive(void)
 }
 
 
-void Transimit(void)
+void Transmit(void)
 {
 	Tflag = 0;
-    Tbyte = &Str;		   //Tbyte points to str.
+    Tbyte = &Str;	//Tbyte points to str.
     
-	while((*Tbyte)!= '\0') //While there is something remaining
+	while((*Tbyte) != '\0')	//While there is something remaining
     {
         SBUF = *Tbyte;
-        while(!TI);    //Wait until TI=1 (finish transmiting).
+        while(!TI);	//Wait until TI=1 (finish transmiting).
         TI = 0;
         Tbyte++;
     }  	
