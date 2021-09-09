@@ -114,14 +114,13 @@ bit SW1Down(void)
     {
         delay(10);		//Check twice, debounce
         if (SW1 == 0) 
-	{
-	    while (1)	//Return 1 when the switch is released
-	    {
-		if (SW1 == 1)
-		    return 1;
-	    }
-	}
-	else return 0;
+		{
+	    	while (1)	//Return 1 when the switch is released
+	    	{
+				if (SW1 == 1) return 1;
+	    	}
+		}
+		else return 0;
     }
     else return 0;
 }
@@ -133,14 +132,13 @@ bit SW2Down(void)
     {
         delay(10);
         if (SW2 == 0) 
-	{
-	    while (1)
-	    {
-		if (SW2 == 1)
-		    return 1;
-	    }
-	}
-	else return 0;
+		{
+	    	while (1)
+	    	{
+				if (SW2 == 1) return 1;
+	    	}
+		}
+		else return 0;
     }
     else return 0;
 }
