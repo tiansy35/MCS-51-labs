@@ -77,7 +77,6 @@ void Initialize(void)
     TIMER0_H = 0xd3;
     period = 25;
 
-
     TMOD=0x01;			//Timer0，Gate 0，Method 1
     IT0=1;				   
     EX0=1;
