@@ -157,8 +157,8 @@ void Display(void)		//Display the 4 digit number on segment LEDs
 
 void BCD4(uint sum)	    //Code the number (8-bit) with four binary numbers
 {
-     Ax = sum / 1000;
-     Bx = (sum % 1000) / 100;
-     Cx = (sum % 100) / 10;
-     Dx = sum % 10;
+    Ax = sum / 1000;
+    Bx = (sum % 1000) / 100;
+    Cx = (sum % 100) / 10;
+    Dx = sum % 10;
 }
