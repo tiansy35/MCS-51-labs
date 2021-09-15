@@ -59,8 +59,7 @@ bit SW1Down(void)
 		{
 		    while (1)
 		    {
-		        if (SW1 == 1)
-			    return 1 ;
+		        if (SW1 == 1) return 1;
 		    }
 		}			
 		else return 0;
@@ -79,8 +78,7 @@ bit SW2Down(void)
 			
 		    while (1)		
 		    {
-		        if (SW2 == 1)
-			    return 1 ;
+		        if (SW2 == 1) return 1;
 		    }
 		}				
 		else return 0;
@@ -167,7 +165,7 @@ void main()
 			}
             Display();
         }
-		if (SW2Down())        //Decrease amplitude
+		if (SW2Down())    //Decrease amplitude
         {        
             amp--;
 			ampref = (float)amp/VMAX;
