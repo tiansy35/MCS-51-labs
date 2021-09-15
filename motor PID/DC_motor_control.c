@@ -29,9 +29,9 @@ uchar xdata table[10] = {0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90};
 
 struct PIDcontrol
 {
-      uchar P;
-      uchar I;
-      uchar D;
+    uchar P;
+    uchar I;
+    uchar D;
 }
 PIDcon = {50,15,0};
 
@@ -49,14 +49,14 @@ void main()
 {
     //Initialize the chip
     SP=0x70;    
-    SCON=0x50;          //Mode 1(SM1=1,REN=1)
-    TMOD=0x21;          //T0:mode 1,T1:mode 2
-    PCON=0x00;          //SMOD=0
+    SCON=0x50;  //Mode 1(SM1=1,REN=1)
+    TMOD=0x21;  //T0:mode 1,T1:mode 2
+    PCON=0x00;  //SMOD=0
 
-    TH1=0xfd;           //Baud rate=9600
+    TH1=0xfd;   //Baud rate=9600
     TL1=0xfd;
 
-    TH0=0xfe;          //Timer0: T=0.4ms
+    TH0=0xfe;   //Timer0: T=0.4ms
     TL0=0x8f;
 
     EA=1;
@@ -66,7 +66,7 @@ void main()
     IT1=1;
     ES=0;
 
-    PT0=1;              //T0 has high priority
+    PT0=1;      //T0 has high priority
     TR1=1;
     TR0=1;
     RI=0;
@@ -93,11 +93,11 @@ void main()
         }
         if (mark)
         {
-            m = PID();    // Update m trough PID control (once for every period of the PWM)
+            m = PID();  //Update m trough PID control (once for every period of the PWM)
             mark = 0;
         }
     	
-        // Generate PWM wave
+        //Generate PWM wave (high and low time determined by m)
         if(PWM < m) P15 = 1;
         else P15 = 0;
         Display();
@@ -117,11 +117,11 @@ void timer0(void) interrupt 1
     EA=0;
     TH0=0xfe;
     TL0=0x8f;
-    numb++;
+    numb++;     //numb is used to compute current motor speed
     PWM++;
     if(PWM == max)
     {
-        mark = 1;       // The flag of one PID control update
+        mark = 1;   //The flag of one PID control update
         PWM = 0;
     }
     PT0=1;
@@ -129,7 +129,7 @@ void timer0(void) interrupt 1
 }
 
 
-void int1(void) interrupt 2  // Interrupt from an external pin
+void int1(void) interrupt 2     //Interrupt from an external pin
 {
     EX1=0;
     curr = Speed(numb);
@@ -140,7 +140,7 @@ void int1(void) interrupt 2  // Interrupt from an external pin
 }
 
 
-int Speed(int a)          //Current speed calculation   
+int Speed(int a)    //Current speed calculation   
 {
     int spd;
 
