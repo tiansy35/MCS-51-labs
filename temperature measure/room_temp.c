@@ -3,7 +3,7 @@ Author:     Siyuan Tian (tiansy97), Ruiqi Hu
 Time:       2018/11
 Functions:  The system measures the room temperature using a temperature sensor. The analog
             output is converted to diginal signals by the ADC0809 chip. The code reads the 
-            signal and converts it to real temperatures, and it applies a digital filter to 
+            signal and converts it to real temperature, and it applies a digital filter to 
             stablize the readings. It then displays the temperature on LEDs.    
 Concepts:   Sensing circuit design, A/D conversion, digital filtering, segment displays, etc  
 */
@@ -49,9 +49,9 @@ void main()
     while(1)
     {
         p = ADC0809;
-        *p = 255;           //Any number, activate ADC
-        while (EOC);        //When the AD process finishes, EOC=0
-        result = *p;         //Get the result from ADC
+        *p = 255;       //Any number, activate ADC
+        while (EOC);    //When the AD process finishes, EOC=0
+        result = *p;    //Get the result from ADC
         transfer(0,50);
         filter();
         bcd();
@@ -60,7 +60,7 @@ void main()
 }
 
 
-void Initialize(void)       //Initialize parameters
+void Initialize(void)   //Initialize parameters
 {
     Aa = Bb = Cc = Dd = 0;
     result = 0;
@@ -71,16 +71,16 @@ void Initialize(void)       //Initialize parameters
 }
 
 
-void transfer(int min, int max)    
+void transfer(uint min, uint max)    
 {
-    temp = (float)min + (float)(max-min)*((float)(result) / 256.0);
     //Turn the measures into real temperature (float)
+    temp = (float)min + (float)(max-min)*((float)(result) / 256.0);
 }
 
 
-void filter(void)                 // First-order RC filtering
+void filter(void)       //First-order RC filtering
 {
-    now = (1.0 - para)*last + para * temp;
+    now = (1.0 - para) * last + para * temp;
     last = now;
     temp = now;
 }
@@ -88,10 +88,10 @@ void filter(void)                 // First-order RC filtering
 
 void bcd(void)
 {
-    Aa = 0;                            //Hundreds
+    Aa = 0;                         //Hundreds
     Bb = (uint)(temp) / 10;            
     Cc = (uint)(temp) % 10;
-    Dd = (uint)(temp*10.0) % 10;       //Tenths
+    Dd = (uint)(temp*10.0) % 10;    //Tenths
 }
 
 
