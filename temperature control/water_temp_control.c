@@ -18,9 +18,9 @@ Concepts:   Temperature sensing, A/D conversion, relay control circuit, segment 
 #define dg3 0x7ff9
 #define dg2 0x7ffa
 #define dg1 0x7ffb
+
 #define dg5 0xbfff
 #define T_ADDR 0xDFFA
-
 #define dg6 0x7FFC
 
 uchar xdata *pdg;
@@ -32,7 +32,7 @@ uchar set,seti,setm;
 
 sbit W1=P1^7; 
 sbit EOC=P3^3; 
-uint Tset,Trel,num1, num2,buffer, Tlast, Tll, flag;
+uint Tset, Trel, num1, num2, buffer, Tlast, Tll, flag;
 int Poor;
 float temp;
 
@@ -119,57 +119,56 @@ void main(void)
 
         Tset=10*seti+setm;
         Trel=10*num1+num2;
-        Poor=Tset-Trel;     // The  difference between the target temp and current temp
+        Poor=Tset-Trel;     // The difference between the target temp and current temp
         
         if (Poor <= 0)      // If overheat, stop heating
         {
             pdg = dg6;
             *pdg=0x00;
         }
-        else if (Poor>=10)      // Keep heating
-            {
-                pdg = dg6;
-                *pdg=0x02;  
-            }
-            else if(Poor>=5)    // Heat for 1/2 of the time
+        else if (Poor>=10)  // Keep heating
+        {
+            pdg = dg6;
+            *pdg=0x02;  
+        }
+        else if(Poor>=5)    // Heat for 1/2 of the time
+        {
+            pdg = dg6;
+            *pdg =0x02; 
+            Delay(400);
+            pdg = dg6;
+            *pdg= 0x00;  
+            Delay(400);
+        }
+        else 
+		{
+			if (Poor>=3)     // Heat for 1/4 of the time
             {
                 pdg = dg6;
                 *pdg =0x02; 
-                Delay(400);
+                Delay(200);
                 pdg = dg6;
-                *pdg= 0x00;  
-                Delay(400);
+                *pdg=0x00;  
+                Delay(600);
             }
-            else 
-			{
-			    if (Poor>=3)     // Heat for 1/4 of the time
+            else
+            {
+                if (Poor>=1)    // Heat for 1/6 of the time
                 {
                     pdg = dg6;
                     *pdg =0x02; 
                     Delay(200);
                     pdg = dg6;
                     *pdg=0x00;  
-                    Delay(600);
+                    Delay(1000);
                 }
                 else
                 {
-                    if (Poor>=1)    // Heat for 1/6 of the time
-                    {
-                        pdg = dg6;
-                        *pdg =0x02; 
-                        Delay(200);
-                        pdg = dg6;
-                        *pdg=0x00;  
-                        Delay(1000);
-                    }
-                    else
-                    {
-                        pdg = dg6;
-                        *pdg=0x00;
-                    }
+                    pdg = dg6;
+                    *pdg=0x00;
                 }
-			}
+            }
+		}
     }
-
-        
+           
 }
